@@ -1,0 +1,100 @@
+#############################
+1.) create_folder_structure.py
+Creates folders for Network library.
+
+runtime: instant
+
+In file description:
+"""
+Inside the folder where this script is run, it will create a "Network_Library" folder,
+inside which "p_0" to "p_20" folders are created.
+"""
+
+
+#############################
+2.) Create_Network_Library.py
+Creates the library of networks (21 values of par. p, 32 batches, 256 networks per batch, overall 60GB)
+Make sure there is enough space on the disk to create all networks.
+
+runtime: ~hours
+
+In file description:
+"""
+Will fill the Network Library with the networks.
+
+In each folder, named p_0 to p_20, a pickle file is created for each batch.
+Each batch is a list (of length = batch_size) of connected watts strogatz graphs with p = p_i (p_i = name of folder)
+p_i's correspond to i-th indexes of p's in array p_array = 10**np.arange(-2,0.1,0.1)
+Those are 21 equidistant points on the logarithmic scale between 0.01 and 1 (inclusive).
+
+Note, in thesis only batches indexed 4,5,6,7 are used due to computational constraints.
+"""
+
+#############################
+3.) epidemic_function.py
+Has the "SIR" model function as well as all the vaccination strategies, core supporting file for individual simulation.
+
+runtime: None! isn't run standalone
+
+In file description:
+"""
+Contains Core functions for the epidemic spread simulation, optimized for speed.
+
+SIR function
+-simulates the SIR epidemic spread model on a network. Allows for mutation of infectivity and for vaccination according to a strategy.
+
+Supporting functions:
+
+-Vaccination strategy functions:
+--arbitrary (uniform random)
+--highest_degree
+--highest_CC (clustering coefficient)
+--lowest_CC
+
+-test_infection (executes probabilistic infection)
+-mutation_test (executes probabilistic mutation)
+"""
+
+#############################
+4.) simulation.py
+Has the simulation functions for running SIR on the Network Library, with multiprocessing utilized.
+Core supporting file for whole dataset simulation.
+Expect ~60% CPU use and 80% RAM use if run.
+
+runtime: None! isn't run standalone
+
+In file description:
+"""
+Contains core simulation files to execute the SIR function on a whole dataset across a whole parameter space.
+
+simulation_library function executes simul function across all given (p)'s and for all given (batch)es
+simul function executes SIR function for all networks (G) in given batch and for all parameter combinations (beta,gamma,rho,chi,strategy,mutation)
+
+uses half the CPU cores.
+
+Final Dictionary Output Structure of simulation_library:
+KEY is tuple of form:
+(p,beta,gamma,rho,chi,strategy name(string),mutation)           #i.e. all defining parameters of epidemic simulation
+VALUE is list of SIR function outputs, that is, list of tuples of form
+(t,S,I,R)                                                       #i.e. list of all outcomes of simulations for given key
+"""
+
+#############################
+5.) Data_creation.py
+Creates the data by running the simulation_library function on the Network_Library.
+
+runtime: ~2 hours per batch (thesis run 4 batches, so total 8 hours) -- conditional on provided parameter space to be explored.
+
+"""
+Runs the simulation on the given part of Network library and so produces a data set.
+Data is saved in a Simulation_Results folder, in files per each value of p.
+"""
+
+#############################
+6.) Data_consolidation.py
+Collects output from Data_creation.py into one final data file containing one dictionary.
+
+#############################
+7.) FirstDraft.ipynb
+Analysis of simulation data.
+Creates a bunch of plots that are saved in the Plots folder.
