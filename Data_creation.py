@@ -1,7 +1,7 @@
 """
 Runs the simulation on the given part of Network library and so produces a data set.
 Data is saved in a Simulation_Results folder, in files per each value of p.
-
+k
 """
 from epidemic_function import * #my file
 from simulation import * #my file
