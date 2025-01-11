@@ -1,13 +1,11 @@
 # Vaccination Strategies in Epidemics with Mutating Infectivity on Small-World Networks
 
-**Submitted to University of Amsterdam**
+*Submitted to University of Amsterdam in partial fulfillment of the degree of Bachelor of Science in Econometrics*
 
 ---
 
 ## Emil Javůrek  
-*13331124, University of Amsterdam*
 
----
 
 ### Abstract
 Simulations of epidemic spread are an active area of research with the practical aim of
