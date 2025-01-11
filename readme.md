@@ -2,8 +2,6 @@
 
 *Submitted to University of Amsterdam in partial fulfillment of the degree of Bachelor of Science in Econometrics*
 
----
-
 ## Emil Javůrek  
 
 
